@@ -30,7 +30,8 @@ experiments.
 
 **Architecture.** A single Teacher (Gemini) retrieves the most relevant chunk from
 a static corpus via TF-IDF, then **creates and solves** a problem in one pass
-(`## ЗАДАЧА / ## РОЗВ'ЯЗОК / ## ВІДПОВІДЬ`). The Judge verifies the answer with the
+(`## ЗАДАЧА / ## РОЗВ'ЯЗОК / ## ВІДПОВІДЬ`). The static corpus was artificially
+generated using Claude and GPT. The Judge verifies the answer with the
 **Wolfram Alpha Short Answers API**: it translates the problem into a Wolfram
 query, sends it, and compares the returned answer to the Teacher's.
 
@@ -60,7 +61,7 @@ generated for each topic and then verified through the Wolfram-based pipeline.
 the same evaluation setup: **18 randomly selected topics**, with generated
 problems verified through the Solver + SymPy checking mechanism.
 
-**Why does it improve on the baseline?**
+## Why does it improve on the baseline?**
 
 Experiment 2 improves the baseline by replacing fragile Wolfram-based verification with symbolic verification through SymPy. In the baseline, the system compared the Teacher’s answer with the Wolfram result in a more text-oriented way, so even mathematically correct answers could be rejected because of formatting differences, such as `1/2` vs `0.5`, different root order, spacing, or equivalent algebraic forms. With SymPy, the Solver converts the problem into a symbolic expression and computes the result exactly, so the Judge checks mathematical correctness instead of surface-level similarity.
 
