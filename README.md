@@ -42,8 +42,9 @@ query, sends it, and compares the returned answer to the Teacher's.
   to parse multi-step queries (HTTP 501), and the text comparison rejects correct
   but differently-formatted answers.
 
-**Result:** 
-
+**Results:** The baseline achieved an accuracy of **56%**. Testing was performed on
+a test set of **18 randomly selected topics**, where a new math problem was
+generated for each topic and then verified through the Wolfram-based pipeline.
 ## Experiment 2 — Multi-agent + RAG + SymPy
 
 **Architecture (3 agents).**
@@ -55,7 +56,11 @@ query, sends it, and compares the returned answer to the Teacher's.
 4. **Judge** evaluates the SymPy expression in a safe namespace and compares it
    symbolically to the Solver's answer; non-matching items are discarded.
 
-**Why it improves on the baseline.**
+**Results:** The improved multi-agent pipeline achieved an accuracy of **94%** on
+the same evaluation setup: **18 randomly selected topics**, with generated
+problems verified through the Solver + SymPy checking mechanism.
+
+**Why does it improve on the baseline?**
 
 Experiment 2 improves the baseline by replacing fragile Wolfram-based verification with symbolic verification through SymPy. In the baseline, the system compared the Teacher’s answer with the Wolfram result in a more text-oriented way, so even mathematically correct answers could be rejected because of formatting differences, such as `1/2` vs `0.5`, different root order, spacing, or equivalent algebraic forms. With SymPy, the Solver converts the problem into a symbolic expression and computes the result exactly, so the Judge checks mathematical correctness instead of surface-level similarity.
 
@@ -65,7 +70,7 @@ Finally, an important improvement is the use of a stronger multi-agent architect
 
 ## Setup
 
-Set the keys to the Gemini model and Wolfram (GEMINI_API_KEY & WOLFRAM_APP_ID) and run jupyter notebook math_tutor.ipynb.
+Before running the project, configure the required API keys for Gemini and Wolfram Alpha by setting the `GEMINI_API_KEY` and `WOLFRAM_APP_ID` environment variables. Then run the `math_tutor.ipynb` Jupyter Notebook to execute the full pipeline.
 
 Keep these next to the notebook:
 * `context/*.txt` — the static corpus for Experiment 1's TF-IDF search
